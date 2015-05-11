@@ -38,7 +38,10 @@ def on_object_removed(obj, event):
     :param obj: The content object.
     :param event: The event.
     """
-    node = _shadowtree_node_for_content(obj)
+    try:
+        node = _shadowtree_node_for_content(obj)
+    except api.exc.CannotGetPortalError:
+        return
     parent = node.__parent__
     if parent is not None and obj.getId() in parent:
         del parent[obj.getId()]
